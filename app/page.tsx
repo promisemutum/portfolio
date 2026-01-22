@@ -9,18 +9,15 @@ export default function Home() {
     let locoScroll: any;
 
     const init = async () => {
-      // 1. Dynamic Import for Locomotive Scroll (v4 compatible)
       const LocomotiveScroll = (await import('locomotive-scroll')).default;
       gsap.registerPlugin(ScrollTrigger);
 
-      // 2. Setup Locomotive Scroll
-      // Using 'as any' to bypass TypeScript type issues with v4 API
+      // 1. Initialize Locomotive Scroll
       locoScroll = new LocomotiveScroll({
         el: document.querySelector('#main') as HTMLElement,
         smooth: true,
-      } as any);
+      });
 
-      // 3. Sync ScrollTrigger with Locomotive
       locoScroll.on('scroll', ScrollTrigger.update);
 
       ScrollTrigger.scrollerProxy('#main', {
@@ -30,19 +27,12 @@ export default function Home() {
             : locoScroll.scroll.instance.scroll.y;
         },
         getBoundingClientRect() {
-          return {
-            top: 0,
-            left: 0,
-            width: window.innerWidth,
-            height: window.innerHeight,
-          };
+          return { top: 0, left: 0, width: window.innerWidth, height: window.innerHeight };
         },
-        pinType: (document.querySelector('#main') as HTMLElement).style.transform
-          ? 'transform'
-          : 'fixed',
+        pinType: (document.querySelector('#main') as HTMLElement).style.transform ? 'transform' : 'fixed',
       });
 
-      // 4. Canvas Animation Logic
+      // 2. Canvas Logic
       const canvas = document.querySelector('canvas') as HTMLCanvasElement;
       const context = canvas?.getContext('2d');
 
@@ -50,42 +40,29 @@ export default function Home() {
         canvas.width = window.innerWidth;
         canvas.height = window.innerHeight;
 
-        window.addEventListener('resize', () => {
-          canvas.width = window.innerWidth;
-          canvas.height = window.innerHeight;
-          render();
-        });
-
-        // Frame configuration
-        const frameCount = 300; // Adjust this if you have fewer images
+        const frameCount = 300;
         const images: HTMLImageElement[] = [];
-        const imageSeq = { frame: 1 };
+        const imageSeq = { frame: 0 };
 
-        // Preload images from /public folder
+        // Preload from public/images/
         for (let i = 0; i < frameCount; i++) {
           const img = new Image();
           const number = (i + 1).toString().padStart(4, '0');
-          img.src = `/images/male${number}.png`; // Ensure files are in public/male0001.png
+          img.src = `/images/male${number}.png`; 
           images.push(img);
         }
 
         const render = () => {
           const img = images[imageSeq.frame];
-          if (!img) return;
-
-          const hRatio = canvas.width / img.width;
-          const vRatio = canvas.height / img.height;
-          const ratio = Math.max(hRatio, vRatio);
-          const centerShift_x = (canvas.width - img.width * ratio) / 2;
-          const centerShift_y = (canvas.height - img.height * ratio) / 2;
-
-          context.clearRect(0, 0, canvas.width, canvas.height);
-          context.drawImage(
-            img,
-            0, 0, img.width, img.height,
-            centerShift_x, centerShift_y,
-            img.width * ratio, img.height * ratio
-          );
+          if (img && img.complete) {
+            const hRatio = canvas.width / img.width;
+            const vRatio = canvas.height / img.height;
+            const ratio = Math.max(hRatio, vRatio);
+            const x = (canvas.width - img.width * ratio) / 2;
+            const y = (canvas.height - img.height * ratio) / 2;
+            context.clearRect(0, 0, canvas.width, canvas.height);
+            context.drawImage(img, 0, 0, img.width, img.height, x, y, img.width * ratio, img.height * ratio);
+          }
         };
 
         gsap.to(imageSeq, {
@@ -102,9 +79,8 @@ export default function Home() {
           onUpdate: render,
         });
 
-        if (images[1]) images[1].onload = render;
+        images[0].onload = render;
 
-        // Pin the Canvas Page
         ScrollTrigger.create({
           trigger: '#page>canvas',
           pin: true,
@@ -114,16 +90,14 @@ export default function Home() {
         });
       }
 
-      // 5. Page Text Animations (Pinning)
-      ['#page1', '#page2', '#page3'].forEach((pageId) => {
-        gsap.to(pageId, {
-          scrollTrigger: {
-            trigger: pageId,
-            start: 'top top',
-            end: 'bottom top',
-            pin: true,
-            scroller: '#main',
-          },
+      // 3. Text Pinning
+      ['#page1', '#page2', '#page3'].forEach((id) => {
+        ScrollTrigger.create({
+          trigger: id,
+          pin: true,
+          scroller: '#main',
+          start: 'top top',
+          end: 'bottom top',
         });
       });
 
@@ -133,7 +107,6 @@ export default function Home() {
 
     init();
 
-    // Cleanup on component unmount
     return () => {
       if (locoScroll) locoScroll.destroy();
       ScrollTrigger.getAll().forEach((t) => t.kill());
