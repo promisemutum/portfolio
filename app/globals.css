@@ -109,3 +109,98 @@ canvas {
 
 #text1, #text3 { width: 40%; }
 #text2 { width: 30%; color: #7c7c7c; }
+
+/* Boot Loader Styles */
+.boot-container {
+  min-height: 100vh;
+  width: 100vw;
+  background-color: #050505;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  font-family: 'JetBrains Mono', monospace;
+  color: white;
+}
+
+.boot-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.1) 50%), 
+              linear-gradient(90deg, rgba(255, 0, 0, 0.03), rgba(0, 255, 0, 0.01), rgba(0, 0, 255, 0.03));
+  background-size: 100% 3px, 2px 100%;
+  pointer-events: none;
+  z-index: 100;
+}
+
+.loader-container {
+  text-align: center;
+}
+
+#counter {
+  font-size: 10vw;
+  margin: 0;
+  line-height: 1;
+  transition: color 0.3s ease;
+}
+
+#counter.counter-complete {
+  color: #3b82f6;
+}
+
+#start-prompt {
+  margin-top: 20px;
+  font-size: 1.5rem;
+  letter-spacing: 5px;
+  color: #3b82f6;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: opacity 0.5s ease;
+}
+
+.blink {
+  animation: blinker 1s linear infinite;
+}
+
+@keyframes blinker {
+  50% { opacity: 0; }
+}
+
+.flash {
+  animation: flash-white 0.2s ease-out forwards;
+}
+
+@keyframes flash-white {
+  0% { background-color: white; }
+  100% { background-color: #050505; }
+}
+
+/* Blank Homepage Styles */
+.blank-home {
+  min-height: 100vh;
+  width: 100vw;
+  background-color: #000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.cyberfiction-link {
+  color: #fff;
+  text-decoration: none;
+  font-size: 1.5rem;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  padding: 16px 32px;
+  border: 1px solid #fff;
+  border-radius: 50px;
+  transition: all 0.3s ease;
+}
+
+.cyberfiction-link:hover {
+  background-color: #fff;
+  color: #000;
+}

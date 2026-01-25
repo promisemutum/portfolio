@@ -18,6 +18,10 @@ export default function RootLayout({
           rel="stylesheet" 
           href="https://cdn.jsdelivr.net/npm/locomotive-scroll@4.1.4/dist/locomotive-scroll.min.css" 
         />
+        <link
+          href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@800&display=swap"
+          rel="stylesheet"
+        />
       </head>
       <body>{children}</body>
     </html>
