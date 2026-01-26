@@ -114,13 +114,14 @@ canvas {
 .boot-container {
   min-height: 100vh;
   width: 100vw;
-  background-color: #050505;
+  background-color: #000; /* Changed to black background */
   display: flex;
   justify-content: center;
   align-items: center;
   overflow: hidden;
   font-family: 'JetBrains Mono', monospace;
-  color: white;
+  color: #fff; /* Changed to white text */
+  position: relative; /* Added for absolute positioning */
 }
 
 .boot-overlay {
@@ -129,7 +130,7 @@ canvas {
   left: 0;
   width: 100%;
   height: 100%;
-  background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.1) 50%), 
+  background: linear-gradient(rgba(0, 0, 0, 0) 50%, rgba(255, 255, 255, 0.1) 50%), 
               linear-gradient(90deg, rgba(255, 0, 0, 0.03), rgba(0, 255, 0, 0.01), rgba(0, 0, 255, 0.03));
   background-size: 100% 3px, 2px 100%;
   pointer-events: none;
@@ -137,25 +138,48 @@ canvas {
 }
 
 .loader-container {
+  position: relative;
+  width: 100%;
+  height: 100%;
   text-align: center;
 }
 
-#counter {
-  font-size: 10vw;
+/* Counter Number Positioning */
+.counter-number-position {
+  position: fixed;
+  bottom: 2rem;    /* Distance from bottom */
+  right: 2rem;     /* Distance from right */
+  z-index: 10;
+}
+
+.counter-display {
+  font-size: 1.5rem; /* Smaller size */
   margin: 0;
   line-height: 1;
   transition: color 0.3s ease;
+  color: #fff; /* White font */
+  font-weight: bold;
+  font-family: 'JetBrains Mono', monospace;
+}
+
+/* Prompt Text Positioning */
+.prompt-text-position {
+  position: absolute;
+  top: 30%;       /* Center vertically */
+  left: 50%;      /* Center horizontally */
+  transform: translate(-50%, -50%);
+  z-index: 10;
 }
 
 #counter.counter-complete {
-  color: #3b82f6;
+  color: #fff; /* Keep white when complete */
 }
 
-#start-prompt {
-  margin-top: 20px;
-  font-size: 1.5rem;
+/* Update the start-prompt styling in your existing CSS */
+.start-prompt {
+  font-size: 1.2rem;
   letter-spacing: 5px;
-  color: #3b82f6;
+  color: #fff; /* White text */
   text-transform: uppercase;
   cursor: pointer;
   transition: opacity 0.5s ease;
@@ -175,32 +199,140 @@ canvas {
 
 @keyframes flash-white {
   0% { background-color: white; }
-  100% { background-color: #050505; }
+  100% { background-color: #000; } /* Changed to black background */
 }
 
-/* Blank Homepage Styles */
-.blank-home {
-  min-height: 100vh;
+/* --- New Mask Effect Styles --- */
+
+.mask-container {
+  position: relative;
   width: 100vw;
+  height: 100vh;
+  overflow: hidden;
   background-color: #000;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  /* Default cursor position (center) */
+  --x: 50%;
+  --y: 50%;
 }
 
-.cyberfiction-link {
-  color: #fff;
+.image-wrapper {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.image-wrapper img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  pointer-events: none; /* Prevents image dragging */
+}
+
+/* The Base Image (1.png) - Always visible at the bottom */
+.bw-image {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+}
+
+/* The Reveal Image (2.png) - Sits on top, hidden by default */
+.colored-image {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  
+  /* This creates the flashlight effect */
+  mask-image: radial-gradient(
+    circle 300px at var(--x) var(--y), 
+    black 20%, 
+    transparent 100%
+  );
+  
+  /* Webkit support for Chrome/Safari/Edge */
+  -webkit-mask-image: radial-gradient(
+    circle 300px at var(--x) var(--y), 
+    black 20%, 
+    transparent 100%
+  );
+  
+  /* Smooth transitions if you want the mask to lag slightly (optional) */
+  /* transition: opacity 0.3s ease; */
+}
+
+/* Rest of your existing styles remain unchanged */
+/* FIXED HOME BUTTON - Cyberpunk Style */
+.cyber-home-btn-container {
+  position: fixed;
+  top: 1.5rem;
+  left: 1.5rem;
+  z-index: 10000; /* Must be above Locomotive Scroll content */
+  pointer-events: none; /* Prevents scroll interference */
+}
+
+.cyber-home-btn {
+  pointer-events: auto; /* Re-enable clicks on button */
+  display: inline-block;
+  padding: 0.6rem 1.4rem;
+  background: rgba(0, 0, 0, 0.85);
+  border: 1px solid #00f3ff;
+  border-radius: 4px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.875rem;
+  font-weight: 700;
+  color: #00f3ff;
   text-decoration: none;
-  font-size: 1.5rem;
-  letter-spacing: 3px;
+  letter-spacing: 1px;
   text-transform: uppercase;
-  padding: 16px 32px;
-  border: 1px solid #fff;
-  border-radius: 50px;
-  transition: all 0.3s ease;
+  transition: all 0.25s ease;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 0 8px rgba(0, 243, 255, 0.4);
 }
 
-.cyberfiction-link:hover {
-  background-color: #fff;
-  color: #000;
+.cyber-home-btn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(0, 243, 255, 0.2),
+    transparent
+  );
+  transition: left 0.7s;
+}
+
+.cyber-home-btn:hover {
+  background: rgba(0, 20, 30, 0.95);
+  color: #ff00ff;
+  border-color: #ff00ff;
+  box-shadow: 0 0 15px rgba(255, 0, 255, 0.6),
+              0 0 30px rgba(0, 243, 255, 0.3);
+  transform: translateX(2px);
+}
+
+.cyber-home-btn:hover::before {
+  left: 100%;
+}
+
+.cyber-home-btn:active {
+  transform: translateX(0) scale(0.98);
+}
+
+/* Glitch effect on hover (optional but thematic) */
+.cyber-home-btn:hover .cyber-btn-text {
+  animation: glitch-home 0.3s linear infinite;
+}
+
+@keyframes glitch-home {
+  0% { text-shadow: 0 0 0 transparent; }
+  25% { text-shadow: -1px 0 #00f3ff, 1px 0 #ff00ff; }
+  50% { text-shadow: -2px 0 #ff00ff, 2px 0 #00f3ff; }
+  75% { text-shadow: -1px 0 #ff00ff, 1px 0 #00f3ff; }
+  100% { text-shadow: 0 0 0 transparent; }
 }
