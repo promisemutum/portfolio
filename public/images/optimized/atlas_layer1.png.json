@@ -1,0 +1,111 @@
+{
+  "atlasSize": 2048,
+  "tileSize": 1024,
+  "textures": [
+    {
+      "original": "1_albendo.png",
+      "position": {
+        "x": 0,
+        "y": 0
+      },
+      "uvOffset": {
+        "x": 0,
+        "y": 0
+      },
+      "uvRepeat": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    {
+      "original": "1_bump.png",
+      "position": {
+        "x": 1024,
+        "y": 0
+      },
+      "uvOffset": {
+        "x": 0.5,
+        "y": 0
+      },
+      "uvRepeat": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    {
+      "original": "1_depth.png",
+      "position": {
+        "x": 0,
+        "y": 1024
+      },
+      "uvOffset": {
+        "x": 0,
+        "y": 0.5
+      },
+      "uvRepeat": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    {
+      "original": "1_emission.png",
+      "position": {
+        "x": 1024,
+        "y": 1024
+      },
+      "uvOffset": {
+        "x": 0.5,
+        "y": 0.5
+      },
+      "uvRepeat": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    {
+      "original": "1_nobg.png",
+      "position": {
+        "x": 0,
+        "y": 2048
+      },
+      "uvOffset": {
+        "x": 0,
+        "y": 1
+      },
+      "uvRepeat": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    {
+      "original": "1_normal.png",
+      "position": {
+        "x": 1024,
+        "y": 2048
+      },
+      "uvOffset": {
+        "x": 0.5,
+        "y": 1
+      },
+      "uvRepeat": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    {
+      "original": "1_roughness.png",
+      "position": {
+        "x": 0,
+        "y": 3072
+      },
+      "uvOffset": {
+        "x": 0,
+        "y": 1.5
+      },
+      "uvRepeat": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    }
+  ]
+}

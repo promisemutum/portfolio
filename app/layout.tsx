@@ -2,8 +2,8 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "CyberFiction",
-  description: "Canvas Scroll Animation",
+  title: "Portfolio",
+  description: "Interactive 3D Portfolio",
 };
 
 export default function RootLayout({
