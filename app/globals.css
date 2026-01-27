@@ -2,7 +2,6 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: 'Helvetica', sans-serif;
 }
 
 html, body {
@@ -12,12 +11,11 @@ html, body {
   color: #000;
 }
 
-#main {
-  position: relative;
-  overflow: hidden;
+body {
+  font-family: 'Helvetica', sans-serif;
 }
 
-#nav {
+.site-nav {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -28,9 +26,12 @@ html, body {
   z-index: 99;
 }
 
-#nav > h3 { font-weight: 400; font-size: 22px; }
+.site-nav__title {
+  font-weight: 400;
+  font-size: 22px;
+}
 
-#nav > button {
+.site-nav__cta {
   padding: 10px 20px;
   border-radius: 50px;
   background-color: #000;
@@ -38,77 +39,6 @@ html, body {
   border: none;
   cursor: pointer;
 }
-
-#page {
-  position: relative;
-  height: 100vh;
-  width: 100vw;
-}
-
-canvas {
-  position: relative;
-  z-index: 9;
-  max-width: 100vw;
-  max-height: 100vh;
-}
-
-#loop {
-  display: flex;
-  position: absolute;
-  top: 30%;
-  height: 25%;
-  width: 100%;
-  white-space: nowrap;
-}
-
-#loop > h1 {
-  font-weight: 400;
-  font-size: 100px;
-  animation: anim 15s linear infinite;
-}
-
-#loop > h1 > span {
-  -webkit-text-stroke: 1.2px #000;
-  color: transparent;
-  font-weight: 500;
-}
-
-@keyframes anim {
-  0% { transform: translateX(0%); }
-  100% { transform: translateX(-100%); }
-}
-
-#page > h3 {
-  position: absolute;
-  top: 55%;
-  font-weight: 400;
-  color: #7c7c7c;
-  left: 5%;
-  z-index: 10;
-}
-
-#page > h4 {
-  position: absolute;
-  top: 62%;
-  left: 25%;
-  font-weight: 500;
-  z-index: 10;
-}
-
-#page1, #page2, #page3 {
-  position: relative;
-  height: 100vh;
-  width: 100vw;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-#right-text { position: absolute; top: 30%; left: 10%; }
-#left-text { position: absolute; top: 50%; right: 10%; text-align: right; }
-
-#text1, #text3 { width: 40%; }
-#text2 { width: 30%; color: #7c7c7c; }
 
 /* Boot Loader Styles */
 .boot-container {
@@ -119,7 +49,7 @@ canvas {
   justify-content: center;
   align-items: center;
   overflow: hidden;
-  font-family: 'JetBrains Mono', monospace;
+  font-family: var(--font-jetbrains-mono), monospace;
   color: #fff; /* Changed to white text */
   position: relative; /* Added for absolute positioning */
 }
@@ -159,7 +89,7 @@ canvas {
   transition: color 0.3s ease;
   color: #fff; /* White font */
   font-weight: bold;
-  font-family: 'JetBrains Mono', monospace;
+  font-family: var(--font-jetbrains-mono), monospace;
 }
 
 /* Prompt Text Positioning */
@@ -171,11 +101,6 @@ canvas {
   z-index: 10;
 }
 
-#counter.counter-complete {
-  color: #fff; /* Keep white when complete */
-}
-
-/* Update the start-prompt styling in your existing CSS */
 .start-prompt {
   font-size: 1.2rem;
   letter-spacing: 5px;
@@ -183,6 +108,10 @@ canvas {
   text-transform: uppercase;
   cursor: pointer;
   transition: opacity 0.5s ease;
+  background: transparent;
+  border: none;
+  padding: 0;
+  font: inherit;
 }
 
 .blink {
@@ -259,80 +188,4 @@ canvas {
   
   /* Smooth transitions if you want the mask to lag slightly (optional) */
   /* transition: opacity 0.3s ease; */
-}
-
-/* Rest of your existing styles remain unchanged */
-/* FIXED HOME BUTTON - Cyberpunk Style */
-.cyber-home-btn-container {
-  position: fixed;
-  top: 1.5rem;
-  left: 1.5rem;
-  z-index: 10000; /* Must be above Locomotive Scroll content */
-  pointer-events: none; /* Prevents scroll interference */
-}
-
-.cyber-home-btn {
-  pointer-events: auto; /* Re-enable clicks on button */
-  display: inline-block;
-  padding: 0.6rem 1.4rem;
-  background: rgba(0, 0, 0, 0.85);
-  border: 1px solid #00f3ff;
-  border-radius: 4px;
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 0.875rem;
-  font-weight: 700;
-  color: #00f3ff;
-  text-decoration: none;
-  letter-spacing: 1px;
-  text-transform: uppercase;
-  transition: all 0.25s ease;
-  position: relative;
-  overflow: hidden;
-  box-shadow: 0 0 8px rgba(0, 243, 255, 0.4);
-}
-
-.cyber-home-btn::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: -100%;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(
-    90deg,
-    transparent,
-    rgba(0, 243, 255, 0.2),
-    transparent
-  );
-  transition: left 0.7s;
-}
-
-.cyber-home-btn:hover {
-  background: rgba(0, 20, 30, 0.95);
-  color: #ff00ff;
-  border-color: #ff00ff;
-  box-shadow: 0 0 15px rgba(255, 0, 255, 0.6),
-              0 0 30px rgba(0, 243, 255, 0.3);
-  transform: translateX(2px);
-}
-
-.cyber-home-btn:hover::before {
-  left: 100%;
-}
-
-.cyber-home-btn:active {
-  transform: translateX(0) scale(0.98);
-}
-
-/* Glitch effect on hover (optional but thematic) */
-.cyber-home-btn:hover .cyber-btn-text {
-  animation: glitch-home 0.3s linear infinite;
-}
-
-@keyframes glitch-home {
-  0% { text-shadow: 0 0 0 transparent; }
-  25% { text-shadow: -1px 0 #00f3ff, 1px 0 #ff00ff; }
-  50% { text-shadow: -2px 0 #ff00ff, 2px 0 #00f3ff; }
-  75% { text-shadow: -1px 0 #ff00ff, 1px 0 #00f3ff; }
-  100% { text-shadow: 0 0 0 transparent; }
 }

@@ -1,20 +1,18 @@
 'use client';
 
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
 import { useRouter } from 'next/navigation';
 
 export default function CounterPage() {
   const router = useRouter();
   const [count, setCount] = useState(0);
-  const [isLoaded, setIsLoaded] = useState(false);
   const [isFlashing, setIsFlashing] = useState(false);
-  const [showPrompt, setShowPrompt] = useState(false);
+  const flashTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const isLoaded = count >= 100;
 
   // Counter animation effect - slowed down significantly
   useEffect(() => {
     if (count >= 100) {
-      setIsLoaded(true);
-      setShowPrompt(true); // Show prompt when counter completes
       return;
     }
     
@@ -30,11 +28,25 @@ export default function CounterPage() {
 
   // Start game handler
   const startGame = useCallback(() => {
-    if (!isLoaded) return;
+    if (!isLoaded || isFlashing) return;
     setIsFlashing(true);
-    setTimeout(() => {
+    flashTimeoutRef.current = setTimeout(() => {
       router.push('/home');
     }, 300);
+  }, [isLoaded, isFlashing, router]);
+
+  useEffect(() => {
+    return () => {
+      if (flashTimeoutRef.current) {
+        clearTimeout(flashTimeoutRef.current);
+      }
+    };
+  }, []);
+
+  useEffect(() => {
+    if (isLoaded) {
+      router.prefetch('/home');
+    }
   }, [isLoaded, router]);
 
   // Keyboard listener for Enter
@@ -56,7 +68,6 @@ export default function CounterPage() {
         {!isLoaded && (
           <div className="counter-number-position">
             <h1 
-              id="counter" 
               className="counter-display"
             >
               {count.toString().padStart(2, '0')}
@@ -65,17 +76,15 @@ export default function CounterPage() {
         )}
         
         {/* Show prompt only when loaded */}
-        {showPrompt && (
-          <div 
-            className="prompt-text-position"
-          >
-            <div
-              id="start-prompt"
+        {isLoaded && (
+          <div className="prompt-text-position">
+            <button
               className="start-prompt blink"
+              type="button"
               onClick={startGame}
             >
               Press Enter to Start
-            </div>
+            </button>
           </div>
         )}
       </div>
